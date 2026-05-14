@@ -99,13 +99,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
-      <div className="nebula">
-        <div className="nebula-blob nebula-1" />
-        <div className="nebula-blob nebula-2" />
-        <div className="nebula-blob nebula-3" />
-        <div className="nebula-blob nebula-4" />
-        <div className="nebula-blob nebula-5" />
-      </div>
+      <div className="warm-glow" />
       <div className="grain" />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-5 sm:px-6 sm:py-6">
