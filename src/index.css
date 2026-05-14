@@ -35,12 +35,12 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 35vmin;
-  height: 35vmin;
+  width: 48vmin;
+  height: 48vmin;
   background:
     radial-gradient(circle at 50% 55%, rgba(253, 224, 71, 0.7) 0%, transparent 70%),
     radial-gradient(circle at 40% 65%, rgba(252, 211, 77, 0.45) 0%, transparent 75%);
-  filter: blur(30px) saturate(135%);
+  filter: blur(36px) saturate(135%);
   animation: drift-a 16s ease-in-out infinite, breathe 7s ease-in-out infinite;
   will-change: transform;
 }
@@ -51,13 +51,13 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 22vmin;
-  height: 22vmin;
+  width: 30vmin;
+  height: 30vmin;
   background:
     radial-gradient(circle at 60% 45%, rgba(251, 191, 36, 0.65) 0%, transparent 75%),
     radial-gradient(circle at 55% 35%, rgba(253, 230, 138, 0.55) 0%, transparent 75%),
     radial-gradient(circle at 45% 50%, rgba(254, 240, 138, 0.65) 0%, transparent 75%);
-  filter: blur(22px) saturate(145%);
+  filter: blur(26px) saturate(145%);
   animation: drift-b 13s ease-in-out infinite, breathe 6s ease-in-out infinite reverse;
   will-change: transform;
 }
