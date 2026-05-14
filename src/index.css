@@ -287,10 +287,13 @@ body {
     0 4px 12px -4px rgba(0,0,0,0.12);
 }
 
-/* LED text — solid violet matching the logo, with a soft glow */
+/* LED text — fixed amber→pink→violet gradient (same palette the logo icon had) with a soft glow */
 .led-text {
-  color: #8b5cf6;
-  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.55)) drop-shadow(0 0 14px rgba(139, 92, 246, 0.35));
+  background: linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 14px rgba(139, 92, 246, 0.35));
 }
 
 @media (prefers-reduced-motion: reduce) {
