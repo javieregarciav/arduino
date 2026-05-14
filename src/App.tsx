@@ -162,7 +162,7 @@ export default function App() {
 
               <div className="input-card glass-soft fade-up fade-up-delay-5 relative rounded-2xl p-3 sm:rounded-3xl sm:p-4" ref={pickerRef}>
                 {showPicker && (
-                  <div className="picker-pop glass !absolute bottom-full left-0 z-30 mb-2 grid w-[min(320px,calc(100vw-2rem))] grid-cols-4 gap-2 rounded-2xl p-3 shadow-xl">
+                  <div className="picker-pop glass-popover !absolute bottom-full left-0 z-30 mb-2 grid w-[min(320px,calc(100vw-2rem))] grid-cols-4 gap-2 rounded-2xl p-3 shadow-xl">
                     {FIGURES.map((f) => (
                       <div key={f.tag} className="flex flex-col items-center gap-1">
                         <button
