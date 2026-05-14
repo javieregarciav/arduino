@@ -250,16 +250,14 @@ function Sidebar() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <SideButton><IconSettings /></SideButton>
-        <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/15"
+        <div className="h-9 w-9 overflow-hidden rounded-full ring-1 ring-white/15"
           style={{
             background:
-              'radial-gradient(120% 100% at 20% 10%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 50%), linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #1c0606 100%)',
+              'radial-gradient(120% 100% at 20% 10%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #1c0606 100%)',
             boxShadow:
-              '0 1px 0 rgba(255,255,255,0.25) inset, 0 -2px 6px rgba(0,0,0,0.4) inset, 0 6px 14px -6px rgba(127,29,29,0.7)',
+              '0 1px 0 rgba(255,255,255,0.3) inset, 0 -2px 6px rgba(0,0,0,0.45) inset, 0 6px 14px -6px rgba(127,29,29,0.7)',
           }}
-        >
-          <IconChip />
-        </div>
+        />
       </div>
     </aside>
   )
