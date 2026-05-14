@@ -24,8 +24,9 @@ body {
 }
 
 /* ============ LIQUID GLASS LAYERS ============ */
+/* All wrapped in @layer components so Tailwind utilities (absolute, fixed, ...) win on conflict */
+@layer components {
 
-/* Big container — heavy frost, multi-layer highlights, refracted edges */
 .glass {
   position: relative;
   background:
@@ -109,6 +110,8 @@ body {
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+} /* end @layer components */
 
 /* RED gradient text */
 .gradient-text {
