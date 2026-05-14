@@ -287,13 +287,10 @@ body {
     0 4px 12px -4px rgba(0,0,0,0.12);
 }
 
-/* LED text — fixed blue-to-purple gradient with a soft glow */
+/* LED text — solid violet matching the logo, with a soft glow */
 .led-text {
-  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.55)) drop-shadow(0 0 14px rgba(139, 92, 246, 0.35));
+  color: #8b5cf6;
+  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.55)) drop-shadow(0 0 14px rgba(139, 92, 246, 0.35));
 }
 
 @media (prefers-reduced-motion: reduce) {
