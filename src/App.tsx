@@ -20,22 +20,10 @@ const FIGURES: Figure[] = [
 ]
 
 const SUGGESTIONS: { title: string; icon: React.ReactNode }[] = [
-  {
-    title: 'Hola mundo desde el Arduino',
-    icon: <IconUser />,
-  },
-  {
-    title: 'Te quiero :corazon:',
-    icon: <IconMail />,
-  },
-  {
-    title: 'Probando :feliz: la matriz',
-    icon: <IconChat />,
-  },
-  {
-    title: 'Status :ok: sistema online',
-    icon: <IconSliders />,
-  },
+  { title: 'Hola mundo desde el Arduino', icon: <IconUser /> },
+  { title: 'Te quiero :corazon:', icon: <IconMail /> },
+  { title: 'Probando :feliz: la matriz', icon: <IconChat /> },
+  { title: 'Estado :ok: sistema en línea', icon: <IconSliders /> },
 ]
 
 const MAX = 1000
@@ -93,7 +81,7 @@ export default function App() {
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ message: payload }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -131,14 +119,14 @@ export default function App() {
           <main className="relative flex flex-1 flex-col px-6 py-10 sm:px-14 sm:py-16">
             <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center">
               <header className="mb-8">
-                <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-900 sm:text-5xl">
-                  Hi there, <span className="gradient-text">Javi</span>
+                <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
+                  Hola, <span className="gradient-text">Javi</span>
                 </h1>
-                <h2 className="mt-1 text-4xl font-bold leading-tight tracking-tight text-zinc-900 sm:text-5xl">
-                  What would you like to <span className="gradient-text">display</span>?
+                <h2 className="mt-1 text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
+                  ¿Qué querés <span className="gradient-text">mostrar</span>?
                 </h2>
-                <p className="mt-4 max-w-md text-sm text-zinc-500">
-                  Pick one of the example prompts below or type your own message. It will scroll across the 8×8 LED matrix in real time.
+                <p className="mt-4 max-w-md text-sm text-zinc-400">
+                  Elegí uno de los mensajes de ejemplo o escribí el tuyo. Se va a desplazar en la matriz de LEDs 8×8 en tiempo real.
                 </p>
               </header>
 
@@ -149,10 +137,10 @@ export default function App() {
                     onClick={() => sendMessage(s.title)}
                     className="glass-soft group flex h-32 flex-col justify-between rounded-2xl p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
                   >
-                    <span className="text-[11px] font-medium leading-tight text-zinc-800">
+                    <span className="text-[11px] font-medium leading-tight text-zinc-200">
                       {s.title}
                     </span>
-                    <span className="text-zinc-500 transition group-hover:text-purple-500">
+                    <span className="text-zinc-400 transition group-hover:text-purple-300">
                       {s.icon}
                     </span>
                   </button>
@@ -162,10 +150,10 @@ export default function App() {
               <div className="mb-6 flex items-center gap-1.5 text-[11px] text-zinc-500">
                 <IconRefresh />
                 <button
-                  onClick={() => {/* shuffle is decorative for now */}}
-                  className="hover:text-zinc-700"
+                  onClick={() => {/* decorativo */}}
+                  className="hover:text-zinc-300"
                 >
-                  Refresh Prompts
+                  Actualizar sugerencias
                 </button>
               </div>
 
@@ -176,11 +164,11 @@ export default function App() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value.slice(0, MAX))}
                     onKeyDown={onKeyDown}
-                    placeholder="Type the message for the Arduino..."
+                    placeholder="Escribí el mensaje para el Arduino..."
                     rows={1}
-                    className="flex-1 resize-none bg-transparent text-sm text-zinc-800 placeholder-zinc-400 outline-none"
+                    className="flex-1 resize-none bg-transparent text-sm text-zinc-100 placeholder-zinc-500 outline-none"
                   />
-                  <div className="glass-pill flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium text-zinc-700">
+                  <div className="glass-pill flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium text-zinc-200">
                     <IconGlobe />
                     Arduino UNO R4
                     <IconChevron />
@@ -188,18 +176,18 @@ export default function App() {
                 </div>
 
                 <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-xs text-zinc-500" ref={pickerRef}>
+                  <div className="flex items-center gap-4 text-xs text-zinc-400" ref={pickerRef}>
                     <button
                       onClick={() => setShowPicker((v) => !v)}
-                      className="flex items-center gap-1.5 transition hover:text-purple-600"
+                      className="flex items-center gap-1.5 transition hover:text-purple-300"
                     >
-                      <IconPlusCircle /> Figures
+                      <IconPlusCircle /> Figuras
                     </button>
                     <button
                       onClick={() => insertTag('corazon')}
-                      className="flex items-center gap-1.5 transition hover:text-pink-500"
+                      className="flex items-center gap-1.5 transition hover:text-pink-300"
                     >
-                      <IconImage /> Quick :corazon:
+                      <IconImage /> Insertar :corazon:
                     </button>
 
                     {showPicker && (
@@ -208,15 +196,15 @@ export default function App() {
                           <div key={f.tag} className="flex flex-col items-center gap-1">
                             <button
                               onClick={() => insertTag(f.tag)}
-                              title={`Insert :${f.tag}:`}
+                              title={`Insertar :${f.tag}:`}
                               className="glass-soft flex h-14 w-14 items-center justify-center rounded-xl text-2xl transition hover:-translate-y-0.5"
                             >
                               {f.glyph}
                             </button>
                             <button
                               onClick={() => sendFigureOnly(f.tag)}
-                              className="text-[10px] text-zinc-500 hover:text-purple-600"
-                              title={`Send only :${f.tag}:`}
+                              className="text-[10px] text-zinc-400 hover:text-purple-300"
+                              title={`Enviar solo :${f.tag}:`}
                             >
                               {f.label} ↗
                             </button>
@@ -227,14 +215,14 @@ export default function App() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <span className="text-[11px] text-zinc-400">
+                    <span className="text-[11px] text-zinc-500">
                       {message.length}/{MAX}
                     </span>
                     <button
                       onClick={() => sendMessage()}
                       disabled={status === 'sending' || !message.trim()}
                       className="btn-send flex h-9 w-9 items-center justify-center rounded-full text-white transition disabled:cursor-not-allowed disabled:opacity-40"
-                      aria-label="Send"
+                      aria-label="Enviar"
                     >
                       {status === 'sending' ? <Spinner /> : <IconArrowRight />}
                     </button>
@@ -253,9 +241,9 @@ export default function App() {
 
 function Sidebar() {
   return (
-    <aside className="hidden w-16 flex-col items-center justify-between border-r border-white/40 bg-white/20 py-5 backdrop-blur-xl sm:flex">
+    <aside className="hidden w-16 flex-col items-center justify-between border-r border-white/10 bg-white/[0.03] py-5 backdrop-blur-xl sm:flex">
       <div className="flex flex-col items-center gap-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-900 text-white shadow-md">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 text-zinc-900 shadow-md">
           <Logo />
         </div>
         <SideButton><IconPlus /></SideButton>
@@ -266,7 +254,7 @@ function Sidebar() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <SideButton><IconSettings /></SideButton>
-        <div className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-white/70">
+        <div className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-white/20">
           <div className="h-full w-full bg-gradient-to-br from-amber-300 via-rose-400 to-purple-500" />
         </div>
       </div>
@@ -276,7 +264,7 @@ function Sidebar() {
 
 function SideButton({ children }: { children: React.ReactNode }) {
   return (
-    <button className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 transition hover:bg-white/60 hover:text-zinc-900">
+    <button className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition hover:bg-white/10 hover:text-zinc-100">
       {children}
     </button>
   )
@@ -293,25 +281,25 @@ function StatusBar({
 }) {
   if (status === 'sending')
     return (
-      <p className="mt-4 text-center text-xs text-zinc-500">
-        Sending to the LED matrix...
+      <p className="mt-4 text-center text-xs text-zinc-400">
+        Enviando a la matriz de LEDs...
       </p>
     )
   if (status === 'sent')
     return (
-      <p className="mt-4 text-center text-xs text-emerald-600">
-        ✓ Message delivered{lastSent ? ` — "${lastSent}"` : ''}
+      <p className="mt-4 text-center text-xs text-emerald-400">
+        ✓ Mensaje entregado{lastSent ? ` — "${lastSent}"` : ''}
       </p>
     )
   if (status === 'error')
     return (
-      <p className="mt-4 text-center text-xs text-rose-600">
-        Couldn't reach the API: {error}
+      <p className="mt-4 text-center text-xs text-rose-400">
+        No se pudo conectar con la API: {error}
       </p>
     )
   return lastSent ? (
-    <p className="mt-4 text-center text-[11px] text-zinc-400">
-      Last shown on matrix: <span className="text-zinc-600">{lastSent}</span>
+    <p className="mt-4 text-center text-[11px] text-zinc-500">
+      Último mensaje en la matriz: <span className="text-zinc-300">{lastSent}</span>
     </p>
   ) : (
     <div className="mt-4 h-4" />
