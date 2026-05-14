@@ -19,11 +19,11 @@ const FIGURES: Figure[] = [
   { tag: 'flecha', label: 'Flecha', glyph: '➡️' },
 ]
 
-const SUGGESTIONS: { title: string; icon: React.ReactNode }[] = [
-  { title: 'Hola mundo :feliz:', icon: <IconUser /> },
-  { title: 'Bienvenido :corazon:', icon: <IconMail /> },
-  { title: 'Sistema listo :ok:', icon: <IconChat /> },
-  { title: 'Activo :flecha:', icon: <IconSliders /> },
+const SUGGESTIONS: { title: string; payload: string; icon: React.ReactNode }[] = [
+  { title: 'Hola mundo 😊', payload: 'Hola mundo :feliz:', icon: <IconUser /> },
+  { title: 'Bienvenido ❤️', payload: 'Bienvenido :corazon:', icon: <IconMail /> },
+  { title: 'Sistema listo ✅', payload: 'Sistema listo :ok:', icon: <IconChat /> },
+  { title: 'Activo ➡️', payload: 'Activo :flecha:', icon: <IconSliders /> },
 ]
 
 const MAX = 1000
@@ -136,7 +136,7 @@ export default function App() {
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s.title}
-                    onClick={() => sendMessage(s.title)}
+                    onClick={() => sendMessage(s.payload)}
                     className="glass-soft group flex h-32 flex-col justify-between rounded-2xl p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
                   >
                     <span className="text-[11px] font-medium leading-tight text-zinc-200">
