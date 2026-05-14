@@ -20,10 +20,10 @@ const FIGURES: Figure[] = [
 ]
 
 const SUGGESTIONS: { title: string; icon: React.ReactNode }[] = [
-  { title: 'Hola mundo desde el Arduino', icon: <IconUser /> },
-  { title: 'Te quiero :corazon:', icon: <IconMail /> },
-  { title: 'Probando :feliz: la matriz', icon: <IconChat /> },
-  { title: 'Estado :ok: sistema en línea', icon: <IconSliders /> },
+  { title: 'Hola mundo :feliz:', icon: <IconUser /> },
+  { title: 'Bienvenido :corazon:', icon: <IconMail /> },
+  { title: 'Sistema listo :ok:', icon: <IconChat /> },
+  { title: 'Activo :flecha:', icon: <IconSliders /> },
 ]
 
 const MAX = 1000
@@ -111,22 +111,24 @@ export default function App() {
       <div className="blob blob-a" />
       <div className="blob blob-b" />
       <div className="blob blob-c" />
+      <div className="blob blob-d" />
 
       <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-4 sm:p-8">
         <div className="glass relative flex w-full max-w-6xl flex-1 overflow-hidden rounded-[36px]">
+          <span className="sheen" />
           <Sidebar />
 
           <main className="relative flex flex-1 flex-col px-6 py-10 sm:px-14 sm:py-16">
             <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center">
               <header className="mb-8">
                 <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
-                  Hola, <span className="gradient-text">Javi</span>
+                  Hola, <span className="gradient-text">visitante</span>
                 </h1>
                 <h2 className="mt-1 text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
                   ¿Qué querés <span className="gradient-text">mostrar</span>?
                 </h2>
                 <p className="mt-4 max-w-md text-sm text-zinc-400">
-                  Elegí uno de los mensajes de ejemplo o escribí el tuyo. Se va a desplazar en la matriz de LEDs 8×8 en tiempo real.
+                  Escribí un mensaje y se va a desplazar en tiempo real sobre la matriz de LEDs 8×8 del Arduino. Sumá figuras desde el selector o elegí un ejemplo de abajo.
                 </p>
               </header>
 
@@ -140,7 +142,7 @@ export default function App() {
                     <span className="text-[11px] font-medium leading-tight text-zinc-200">
                       {s.title}
                     </span>
-                    <span className="text-zinc-400 transition group-hover:text-purple-300">
+                    <span className="text-zinc-400 transition group-hover:text-rose-300">
                       {s.icon}
                     </span>
                   </button>
@@ -179,7 +181,7 @@ export default function App() {
                   <div className="flex items-center gap-4 text-xs text-zinc-400" ref={pickerRef}>
                     <button
                       onClick={() => setShowPicker((v) => !v)}
-                      className="flex items-center gap-1.5 transition hover:text-purple-300"
+                      className="flex items-center gap-1.5 transition hover:text-rose-300"
                     >
                       <IconPlusCircle /> Figuras
                     </button>
@@ -203,7 +205,7 @@ export default function App() {
                             </button>
                             <button
                               onClick={() => sendFigureOnly(f.tag)}
-                              className="text-[10px] text-zinc-400 hover:text-purple-300"
+                              className="text-[10px] text-zinc-400 hover:text-rose-300"
                               title={`Enviar solo :${f.tag}:`}
                             >
                               {f.label} ↗
