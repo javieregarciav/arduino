@@ -185,12 +185,6 @@ export default function App() {
                     >
                       <IconPlusCircle /> Figuras
                     </button>
-                    <button
-                      onClick={() => insertTag('corazon')}
-                      className="flex items-center gap-1.5 transition hover:text-pink-300"
-                    >
-                      <IconImage /> Insertar :corazon:
-                    </button>
 
                     {showPicker && (
                       <div className="glass absolute bottom-16 left-4 z-30 grid w-[320px] grid-cols-4 gap-2 rounded-2xl p-3 shadow-xl">
@@ -256,8 +250,15 @@ function Sidebar() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <SideButton><IconSettings /></SideButton>
-        <div className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-white/20">
-          <div className="h-full w-full bg-gradient-to-br from-amber-300 via-rose-400 to-purple-500" />
+        <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/15"
+          style={{
+            background:
+              'radial-gradient(120% 100% at 20% 10%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 50%), linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #1c0606 100%)',
+            boxShadow:
+              '0 1px 0 rgba(255,255,255,0.25) inset, 0 -2px 6px rgba(0,0,0,0.4) inset, 0 6px 14px -6px rgba(127,29,29,0.7)',
+          }}
+        >
+          <IconChip />
         </div>
       </div>
     </aside>
@@ -431,6 +432,16 @@ function IconArrowRight() {
     </svg>
   )
 }
+function IconChip() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fecaca" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="6" y="6" width="12" height="12" rx="2" />
+      <rect x="9" y="9" width="6" height="6" rx="1" />
+      <path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3" />
+    </svg>
+  )
+}
+
 function Spinner() {
   return (
     <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
