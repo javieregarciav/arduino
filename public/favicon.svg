@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <radialGradient id="bg" cx="30%" cy="20%" r="90%">
-      <stop offset="0%" stop-color="#3a1212"/>
-      <stop offset="60%" stop-color="#1c0606"/>
-      <stop offset="100%" stop-color="#0a0202"/>
+      <stop offset="0%" stop-color="#3f3f46"/>
+      <stop offset="60%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
     </radialGradient>
     <radialGradient id="led" cx="35%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#fecaca"/>
-      <stop offset="35%" stop-color="#ef4444"/>
-      <stop offset="100%" stop-color="#7f1d1d"/>
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="35%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#b45309"/>
     </radialGradient>
     <radialGradient id="ledDim" cx="35%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#7f1d1d"/>
-      <stop offset="100%" stop-color="#2a0808"/>
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="100%" stop-color="#1c1917"/>
     </radialGradient>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#bg)"/>

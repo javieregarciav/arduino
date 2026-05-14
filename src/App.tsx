@@ -2,11 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const API_URL = 'https://7i3wbeouq2.execute-api.us-east-1.amazonaws.com/message'
 
-type Figure = {
-  tag: string
-  label: string
-  glyph: string
-}
+type Figure = { tag: string; label: string; glyph: string }
 
 const FIGURES: Figure[] = [
   { tag: 'feliz', label: 'Feliz', glyph: '😊' },
@@ -19,11 +15,11 @@ const FIGURES: Figure[] = [
   { tag: 'flecha', label: 'Flecha', glyph: '➡️' },
 ]
 
-const SUGGESTIONS: { title: string; payload: string; icon: React.ReactNode }[] = [
-  { title: 'Hola mundo 😊', payload: 'Hola mundo :feliz:', icon: <IconUser /> },
-  { title: 'Bienvenido ❤️', payload: 'Bienvenido :corazon:', icon: <IconMail /> },
-  { title: 'Sistema listo ✅', payload: 'Sistema listo :ok:', icon: <IconChat /> },
-  { title: 'Activo ➡️', payload: 'Activo :flecha:', icon: <IconSliders /> },
+const SUGGESTIONS: { title: string; payload: string }[] = [
+  { title: 'Mostrar “Hola mundo” con cara feliz', payload: 'Hola mundo :feliz:' },
+  { title: 'Mensaje de bienvenida con corazón', payload: 'Bienvenido :corazon:' },
+  { title: 'Confirmar sistema activo', payload: 'Sistema listo :ok:' },
+  { title: 'Animar flecha hacia la derecha', payload: 'Activo :flecha:' },
 ]
 
 const MAX = 1000
@@ -89,14 +85,9 @@ export default function App() {
       setMessage('')
       setStatus('sent')
     } catch (e) {
-      const err = e instanceof Error ? e.message : 'Error'
-      setErrorMsg(err)
+      setErrorMsg(e instanceof Error ? e.message : 'Error')
       setStatus('error')
     }
-  }
-
-  async function sendFigureOnly(tag: string) {
-    await sendMessage(`:${tag}:`)
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -107,164 +98,146 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      <div className="blob blob-a" />
-      <div className="blob blob-b" />
-      <div className="blob blob-c" />
-      <div className="blob blob-d" />
+    <div className="relative min-h-screen w-full">
+      <div className="warm-glow" />
+      <div className="grain" />
 
-      <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-3 sm:p-6 lg:p-8">
-        <div className="glass relative flex w-full max-w-6xl flex-1 overflow-hidden rounded-3xl sm:rounded-[32px] lg:rounded-[36px]">
-          <span className="sheen" />
-          <Sidebar />
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-5 sm:px-6 sm:py-6">
+        {/* TOP BAR */}
+        <header className="fade-up flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <LogoMark />
+            <span className="text-sm font-semibold tracking-tight text-zinc-900">Matriz<span className="text-amber-500">LED</span></span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="pill flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-700">
+              <span className="text-base leading-none">🇦🇷</span>
+              ES
+            </div>
+            <a
+              href="https://github.com/javieregarciav/arduino"
+              target="_blank"
+              rel="noreferrer"
+              className="pill rounded-full px-3.5 py-1.5 text-xs font-medium text-zinc-800"
+            >
+              Repo
+            </a>
+          </div>
+        </header>
 
-          <main className="relative flex flex-1 flex-col px-5 py-8 sm:px-8 sm:py-12 lg:px-14 lg:py-16">
-            <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center">
-              <header className="mb-6 sm:mb-8">
-                <h1 className="fade-up text-3xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-4xl lg:text-5xl">
-                  Matriz <span className="gradient-text">LED</span>
-                </h1>
-                <h2 className="fade-up fade-up-delay-1 mt-1 text-3xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-4xl lg:text-5xl">
-                  ¿Qué querés <span className="gradient-text">mostrar</span>?
-                </h2>
-                <p className="fade-up fade-up-delay-2 mt-3 max-w-md text-[13px] leading-relaxed text-zinc-400 sm:mt-4 sm:text-sm">
-                  Escribí un mensaje y se va a desplazar en tiempo real sobre la matriz de LEDs 8×8 del Arduino. Sumá figuras desde el selector o elegí un ejemplo de abajo.
-                </p>
-              </header>
+        {/* MAIN */}
+        <main className="flex flex-1 flex-col items-center justify-center py-10">
+          <h1 className="fade-up fade-up-d1 text-center text-2xl font-semibold tracking-tight text-zinc-900 sm:text-[28px]">
+            ¿Qué querés mostrar?
+          </h1>
 
-              <div className="mb-3 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
-                {SUGGESTIONS.map((s, i) => (
+          {/* INPUT CARD */}
+          <div
+            ref={pickerRef}
+            className="input-card fade-up fade-up-d2 relative mt-6 w-full max-w-xl rounded-2xl p-4"
+          >
+            {showPicker && (
+              <div className="picker-pop popover !absolute bottom-full left-0 z-30 mb-2 grid w-[min(320px,calc(100vw-2.5rem))] grid-cols-4 gap-1 rounded-2xl p-2">
+                {FIGURES.map((f) => (
                   <button
-                    key={s.title}
-                    onClick={() => sendMessage(s.payload)}
-                    style={{ animationDelay: `${0.3 + i * 0.07}s` }}
-                    className="suggestion-card fade-up glass-soft group flex h-24 flex-col justify-between rounded-2xl p-3 text-left sm:h-28 lg:h-32"
+                    key={f.tag}
+                    onClick={() => { insertTag(f.tag); setShowPicker(false) }}
+                    title={`Insertar :${f.tag}:`}
+                    className="group flex flex-col items-center gap-0.5 rounded-xl p-2 transition hover:bg-zinc-100"
                   >
-                    <span className="text-[11px] font-medium leading-tight text-zinc-200">
-                      {s.title}
-                    </span>
-                    <span className="text-zinc-400 transition group-hover:text-rose-300">
-                      {s.icon}
-                    </span>
+                    <span className="text-2xl">{f.glyph}</span>
+                    <span className="text-[10px] text-zinc-500 group-hover:text-zinc-800">{f.label}</span>
                   </button>
                 ))}
               </div>
+            )}
 
-              <div className="mb-5 flex items-center gap-1.5 text-[11px] text-zinc-500 sm:mb-6">
-                <IconRefresh />
+            <textarea
+              ref={inputRef}
+              value={message}
+              onChange={(e) => setMessage(e.target.value.slice(0, MAX))}
+              onKeyDown={onKeyDown}
+              placeholder="Escribí tu mensaje..."
+              rows={1}
+              className="w-full resize-none bg-transparent text-sm text-zinc-900 placeholder-zinc-400 outline-none"
+            />
+
+            <div className="mt-3 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                <div className="pill flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium text-zinc-700">
+                  <IconChip />
+                  Arduino R4
+                  <IconChevron />
+                </div>
                 <button
-                  onClick={() => {/* decorativo */}}
-                  className="hover:text-zinc-300"
+                  onClick={() => setShowPicker((v) => !v)}
+                  className="icon-btn flex h-7 w-7 items-center justify-center rounded-full"
+                  aria-label="Figuras"
+                  title="Insertar figura"
                 >
-                  Actualizar sugerencias
+                  <IconGlobe />
                 </button>
               </div>
 
-              <div className="input-card glass-soft fade-up fade-up-delay-5 relative rounded-2xl p-3 sm:rounded-3xl sm:p-4" ref={pickerRef}>
-                {showPicker && (
-                  <div className="picker-pop glass-popover !absolute bottom-full left-0 z-30 mb-2 grid w-[min(320px,calc(100vw-2rem))] grid-cols-4 gap-2 rounded-2xl p-3 shadow-xl">
-                    {FIGURES.map((f) => (
-                      <div key={f.tag} className="flex flex-col items-center gap-1">
-                        <button
-                          onClick={() => insertTag(f.tag)}
-                          title={`Insertar :${f.tag}:`}
-                          className="figure-tile glass-soft flex h-12 w-12 items-center justify-center rounded-xl text-xl sm:h-14 sm:w-14 sm:text-2xl"
-                        >
-                          {f.glyph}
-                        </button>
-                        <button
-                          onClick={() => sendFigureOnly(f.tag)}
-                          className="text-[10px] text-zinc-400 hover:text-rose-300"
-                          title={`Enviar solo :${f.tag}:`}
-                        >
-                          {f.label} ↗
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <textarea
-                    ref={inputRef}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value.slice(0, MAX))}
-                    onKeyDown={onKeyDown}
-                    placeholder="Escribí el mensaje para el Arduino..."
-                    rows={1}
-                    className="w-full flex-1 resize-none bg-transparent text-sm text-zinc-100 placeholder-zinc-500 outline-none"
-                  />
-                  <div className="glass-pill flex w-fit items-center gap-1.5 self-start rounded-full px-3 py-1.5 text-[11px] font-medium text-zinc-200 sm:self-auto">
-                    <IconGlobe />
-                    Arduino UNO R4
-                    <IconChevron />
-                  </div>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between gap-3 sm:mt-4">
-                  <button
-                    onClick={() => setShowPicker((v) => !v)}
-                    className="flex shrink-0 items-center gap-1.5 text-xs text-zinc-400 transition hover:text-rose-300"
-                  >
-                    <IconPlusCircle /> Figuras
-                  </button>
-
-                  <div className="flex items-center gap-3">
-                    <span className="hidden text-[11px] text-zinc-500 xs:inline sm:inline">
-                      {message.length}/{MAX}
-                    </span>
-                    <button
-                      onClick={() => sendMessage()}
-                      disabled={status === 'sending' || !message.trim()}
-                      className="btn-send flex h-9 w-9 items-center justify-center rounded-full text-white transition disabled:cursor-not-allowed disabled:opacity-40"
-                      aria-label="Enviar"
-                    >
-                      {status === 'sending' ? <Spinner /> : <IconArrowRight />}
-                    </button>
-                  </div>
-                </div>
+              <div className="flex items-center gap-1">
+                <span className="hidden text-[11px] text-zinc-400 sm:inline">
+                  {message.length}/{MAX}
+                </span>
+                <button
+                  onClick={() => setShowPicker((v) => !v)}
+                  className="icon-btn flex h-8 w-8 items-center justify-center rounded-full"
+                  aria-label="Adjuntar figura"
+                  title="Insertar figura"
+                >
+                  <IconPaperclip />
+                </button>
+                <button
+                  onClick={() => sendMessage()}
+                  disabled={status === 'sending' || !message.trim()}
+                  className="btn-send flex h-8 w-8 items-center justify-center rounded-full"
+                  aria-label="Enviar"
+                >
+                  {status === 'sending' ? <Spinner /> : <IconArrowUp />}
+                </button>
               </div>
-
-              <StatusBar status={status} error={errorMsg} lastSent={lastSent} />
             </div>
-          </main>
-        </div>
+          </div>
+
+          {/* EXAMPLES */}
+          <div className="mt-8 flex w-full max-w-xl flex-col items-start gap-2">
+            <p className="fade-up fade-up-d3 text-xs font-semibold text-zinc-800">Ejemplos:</p>
+            <div className="flex flex-col items-start gap-2">
+              {SUGGESTIONS.map((s, i) => (
+                <button
+                  key={s.title}
+                  onClick={() => sendMessage(s.payload)}
+                  style={{ animationDelay: `${0.24 + i * 0.05}s` }}
+                  className="suggestion-pill fade-up flex items-center gap-1 rounded-full border border-black/10 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-zinc-800"
+                >
+                  {s.title}
+                  <IconChevronRight />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <StatusBar status={status} error={errorMsg} lastSent={lastSent} />
+        </main>
+
+        {/* FOOTER */}
+        <footer className="fade-up fade-up-d6 flex items-center justify-between pt-6 text-xs text-zinc-500">
+          <div className="flex items-center gap-3">
+            <a className="icon-btn rounded-md p-1.5" href="https://x.com" target="_blank" rel="noreferrer" aria-label="X"><IconX /></a>
+            <a className="icon-btn rounded-md p-1.5" href="https://github.com/javieregarciav/arduino" target="_blank" rel="noreferrer" aria-label="GitHub"><IconGithub /></a>
+          </div>
+          <div className="flex items-center gap-3">
+            <span>Hecho con Arduino UNO R4</span>
+            <span className="text-zinc-300">/</span>
+            <span>API en AWS</span>
+          </div>
+        </footer>
       </div>
     </div>
-  )
-}
-
-function Sidebar() {
-  return (
-    <aside className="hidden w-16 flex-col items-center justify-between border-r border-white/10 bg-white/[0.03] py-5 backdrop-blur-xl sm:flex">
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100 text-zinc-900 shadow-md">
-          <Logo />
-        </div>
-        <SideButton><IconPlus /></SideButton>
-        <SideButton><IconSearch /></SideButton>
-        <SideButton><IconHome /></SideButton>
-        <SideButton><IconFolder /></SideButton>
-        <SideButton><IconClock /></SideButton>
-      </div>
-      <div className="flex flex-col items-center gap-3">
-        <SideButton><IconSettings /></SideButton>
-        <div className="avatar-orb h-9 w-9 overflow-hidden rounded-full ring-1 ring-white/15"
-          style={{
-            background:
-              'radial-gradient(120% 100% at 20% 10%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #1c0606 100%)',
-          }}
-        />
-      </div>
-    </aside>
-  )
-}
-
-function SideButton({ children }: { children: React.ReactNode }) {
-  return (
-    <button className="side-btn flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/10 hover:text-zinc-100">
-      {children}
-    </button>
   )
 }
 
@@ -278,149 +251,107 @@ function StatusBar({
   lastSent: string | null
 }) {
   if (status === 'sending')
-    return (
-      <p className="mt-4 text-center text-xs text-zinc-400">
-        Enviando a la matriz de LEDs...
-      </p>
-    )
+    return <p className="mt-6 text-center text-xs text-zinc-500">Enviando a la matriz...</p>
   if (status === 'sent')
     return (
-      <p className="mt-4 text-center text-xs text-emerald-400">
+      <p className="mt-6 text-center text-xs text-emerald-700">
         ✓ Mensaje entregado{lastSent ? ` — "${lastSent}"` : ''}
       </p>
     )
   if (status === 'error')
-    return (
-      <p className="mt-4 text-center text-xs text-rose-400">
-        No se pudo conectar con la API: {error}
-      </p>
-    )
+    return <p className="mt-6 text-center text-xs text-rose-700">No se pudo conectar con la API: {error}</p>
   return lastSent ? (
-    <p className="mt-4 text-center text-[11px] text-zinc-500">
-      Último mensaje en la matriz: <span className="text-zinc-300">{lastSent}</span>
+    <p className="mt-6 text-center text-[11px] text-zinc-500">
+      Último mensaje: <span className="text-zinc-800">{lastSent}</span>
     </p>
   ) : (
-    <div className="mt-4 h-4" />
+    <div className="mt-6 h-4" />
   )
 }
 
-/* ----------------------- ICONS ----------------------- */
+/* ----------------- ICONS ----------------- */
 
-function Logo() {
+function LogoMark() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M7 12h2M15 12h2M12 7v2M12 15v2" strokeLinecap="round" />
-    </svg>
+    <span
+      className="flex h-6 w-6 items-center justify-center rounded-md"
+      style={{
+        background: 'linear-gradient(135deg, #18181b 0%, #3f3f46 100%)',
+        boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 6px -2px rgba(0,0,0,0.3)',
+      }}
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fde68a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <circle cx="5" cy="5" r="1.5" />
+        <circle cx="19" cy="5" r="1.5" />
+        <circle cx="5" cy="19" r="1.5" />
+        <circle cx="19" cy="19" r="1.5" />
+      </svg>
+    </span>
   )
 }
-const stroke = 'stroke-current'
-function Icon({ d, size = 18 }: { d: string; size?: number }) {
+function IconChip() {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className={stroke}>
-      <path d={d} />
-    </svg>
-  )
-}
-function IconPlus() { return <Icon d="M12 5v14M5 12h14" /> }
-function IconSearch() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-3.5-3.5" />
-    </svg>
-  )
-}
-function IconHome() { return <Icon d="M3 11.5 12 4l9 7.5M5 10v10h14V10" /> }
-function IconFolder() { return <Icon d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" /> }
-function IconClock() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </svg>
-  )
-}
-function IconSettings() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1A2 2 0 1 1 4.3 17l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1A2 2 0 1 1 7 4.3l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1A2 2 0 1 1 19.7 7l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z" />
-    </svg>
-  )
-}
-function IconUser() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21a8 8 0 0 1 16 0" />
-    </svg>
-  )
-}
-function IconMail() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m3 7 9 7 9-7" />
-    </svg>
-  )
-}
-function IconChat() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12a8 8 0 1 1-3.2-6.4L21 4l-1.4 3.2A8 8 0 0 1 21 12Z" />
-    </svg>
-  )
-}
-function IconSliders() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h14M18 18h2" />
-      <circle cx="16" cy="6" r="2" />
-      <circle cx="10" cy="12" r="2" />
-      <circle cx="16" cy="18" r="2" />
-    </svg>
-  )
-}
-function IconRefresh() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 12a9 9 0 0 1 15.5-6.3L21 8" />
-      <path d="M21 3v5h-5" />
-      <path d="M21 12a9 9 0 0 1-15.5 6.3L3 16" />
-      <path d="M3 21v-5h5" />
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="6" y="6" width="12" height="12" rx="2" />
+      <rect x="9" y="9" width="6" height="6" rx="1" />
+      <path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3" />
     </svg>
   )
 }
 function IconGlobe() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
     </svg>
   )
 }
-function IconChevron() {
-  return <Icon d="m6 9 6 6 6-6" size={12} />
-}
-function IconPlusCircle() {
+function IconPaperclip() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 8v8M8 12h8" />
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21.4 11.1 12.3 20.2a5 5 0 0 1-7.1-7.1l9.2-9.2a3.5 3.5 0 0 1 5 5l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.4-8.4" />
     </svg>
   )
 }
-function IconArrowRight() {
+function IconArrowUp() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 12h14M13 6l6 6-6 6" />
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  )
+}
+function IconChevron() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
+}
+function IconChevronRight() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m9 6 6 6-6 6" />
+    </svg>
+  )
+}
+function IconX() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18 3h3l-7.5 8.6L22 21h-6.8l-5.3-6.6L3.8 21H1l8-9.2L1.5 3h7l4.8 6L18 3Zm-1.2 16h1.7L7.3 5H5.5l11.3 14Z" />
+    </svg>
+  )
+}
+function IconGithub() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.5-.3-5.2-1.3-5.2-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 2-.4 3-.4s2.1.1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.2 5.7.4.3.8 1 .8 2v3c0 .3.2.6.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.6 18.4.5 12 .5Z" />
     </svg>
   )
 }
 function Spinner() {
   return (
-    <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity="0.3" strokeWidth="3" />
       <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
     </svg>
