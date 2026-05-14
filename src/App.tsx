@@ -113,31 +113,32 @@ export default function App() {
       <div className="blob blob-c" />
       <div className="blob blob-d" />
 
-      <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-4 sm:p-8">
-        <div className="glass relative flex w-full max-w-6xl flex-1 overflow-hidden rounded-[36px]">
+      <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-3 sm:p-6 lg:p-8">
+        <div className="glass relative flex w-full max-w-6xl flex-1 overflow-hidden rounded-3xl sm:rounded-[32px] lg:rounded-[36px]">
           <span className="sheen" />
           <Sidebar />
 
-          <main className="relative flex flex-1 flex-col px-6 py-10 sm:px-14 sm:py-16">
+          <main className="relative flex flex-1 flex-col px-5 py-8 sm:px-8 sm:py-12 lg:px-14 lg:py-16">
             <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center">
-              <header className="mb-8">
-                <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
+              <header className="mb-6 sm:mb-8">
+                <h1 className="fade-up text-3xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-4xl lg:text-5xl">
                   Matriz <span className="gradient-text">LED</span>
                 </h1>
-                <h2 className="mt-1 text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
+                <h2 className="fade-up fade-up-delay-1 mt-1 text-3xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-4xl lg:text-5xl">
                   ¿Qué querés <span className="gradient-text">mostrar</span>?
                 </h2>
-                <p className="mt-4 max-w-md text-sm text-zinc-400">
+                <p className="fade-up fade-up-delay-2 mt-3 max-w-md text-[13px] leading-relaxed text-zinc-400 sm:mt-4 sm:text-sm">
                   Escribí un mensaje y se va a desplazar en tiempo real sobre la matriz de LEDs 8×8 del Arduino. Sumá figuras desde el selector o elegí un ejemplo de abajo.
                 </p>
               </header>
 
-              <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {SUGGESTIONS.map((s) => (
+              <div className="mb-3 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+                {SUGGESTIONS.map((s, i) => (
                   <button
                     key={s.title}
                     onClick={() => sendMessage(s.payload)}
-                    className="glass-soft group flex h-32 flex-col justify-between rounded-2xl p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
+                    style={{ animationDelay: `${0.3 + i * 0.07}s` }}
+                    className="suggestion-card fade-up glass-soft group flex h-24 flex-col justify-between rounded-2xl p-3 text-left sm:h-28 lg:h-32"
                   >
                     <span className="text-[11px] font-medium leading-tight text-zinc-200">
                       {s.title}
@@ -149,7 +150,7 @@ export default function App() {
                 ))}
               </div>
 
-              <div className="mb-6 flex items-center gap-1.5 text-[11px] text-zinc-500">
+              <div className="mb-5 flex items-center gap-1.5 text-[11px] text-zinc-500 sm:mb-6">
                 <IconRefresh />
                 <button
                   onClick={() => {/* decorativo */}}
@@ -159,8 +160,31 @@ export default function App() {
                 </button>
               </div>
 
-              <div className="glass-soft relative rounded-3xl p-4">
-                <div className="flex items-start justify-between gap-3">
+              <div className="input-card glass-soft fade-up fade-up-delay-5 relative rounded-2xl p-3 sm:rounded-3xl sm:p-4" ref={pickerRef}>
+                {showPicker && (
+                  <div className="picker-pop glass absolute bottom-full left-0 right-0 z-30 mb-2 grid w-full max-w-sm grid-cols-4 gap-2 rounded-2xl p-3 shadow-xl sm:left-auto sm:right-auto sm:w-[320px]">
+                    {FIGURES.map((f) => (
+                      <div key={f.tag} className="flex flex-col items-center gap-1">
+                        <button
+                          onClick={() => insertTag(f.tag)}
+                          title={`Insertar :${f.tag}:`}
+                          className="figure-tile glass-soft flex h-12 w-12 items-center justify-center rounded-xl text-xl sm:h-14 sm:w-14 sm:text-2xl"
+                        >
+                          {f.glyph}
+                        </button>
+                        <button
+                          onClick={() => sendFigureOnly(f.tag)}
+                          className="text-[10px] text-zinc-400 hover:text-rose-300"
+                          title={`Enviar solo :${f.tag}:`}
+                        >
+                          {f.label} ↗
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <textarea
                     ref={inputRef}
                     value={message}
@@ -168,50 +192,25 @@ export default function App() {
                     onKeyDown={onKeyDown}
                     placeholder="Escribí el mensaje para el Arduino..."
                     rows={1}
-                    className="flex-1 resize-none bg-transparent text-sm text-zinc-100 placeholder-zinc-500 outline-none"
+                    className="w-full flex-1 resize-none bg-transparent text-sm text-zinc-100 placeholder-zinc-500 outline-none"
                   />
-                  <div className="glass-pill flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium text-zinc-200">
+                  <div className="glass-pill flex w-fit items-center gap-1.5 self-start rounded-full px-3 py-1.5 text-[11px] font-medium text-zinc-200 sm:self-auto">
                     <IconGlobe />
                     Arduino UNO R4
                     <IconChevron />
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-xs text-zinc-400" ref={pickerRef}>
-                    <button
-                      onClick={() => setShowPicker((v) => !v)}
-                      className="flex items-center gap-1.5 transition hover:text-rose-300"
-                    >
-                      <IconPlusCircle /> Figuras
-                    </button>
-
-                    {showPicker && (
-                      <div className="glass absolute bottom-16 left-4 z-30 grid w-[320px] grid-cols-4 gap-2 rounded-2xl p-3 shadow-xl">
-                        {FIGURES.map((f) => (
-                          <div key={f.tag} className="flex flex-col items-center gap-1">
-                            <button
-                              onClick={() => insertTag(f.tag)}
-                              title={`Insertar :${f.tag}:`}
-                              className="glass-soft flex h-14 w-14 items-center justify-center rounded-xl text-2xl transition hover:-translate-y-0.5"
-                            >
-                              {f.glyph}
-                            </button>
-                            <button
-                              onClick={() => sendFigureOnly(f.tag)}
-                              className="text-[10px] text-zinc-400 hover:text-rose-300"
-                              title={`Enviar solo :${f.tag}:`}
-                            >
-                              {f.label} ↗
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                <div className="mt-3 flex items-center justify-between gap-3 sm:mt-4">
+                  <button
+                    onClick={() => setShowPicker((v) => !v)}
+                    className="flex shrink-0 items-center gap-1.5 text-xs text-zinc-400 transition hover:text-rose-300"
+                  >
+                    <IconPlusCircle /> Figuras
+                  </button>
 
                   <div className="flex items-center gap-3">
-                    <span className="text-[11px] text-zinc-500">
+                    <span className="hidden text-[11px] text-zinc-500 xs:inline sm:inline">
                       {message.length}/{MAX}
                     </span>
                     <button
@@ -250,12 +249,10 @@ function Sidebar() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <SideButton><IconSettings /></SideButton>
-        <div className="h-9 w-9 overflow-hidden rounded-full ring-1 ring-white/15"
+        <div className="avatar-orb h-9 w-9 overflow-hidden rounded-full ring-1 ring-white/15"
           style={{
             background:
               'radial-gradient(120% 100% at 20% 10%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #1c0606 100%)',
-            boxShadow:
-              '0 1px 0 rgba(255,255,255,0.3) inset, 0 -2px 6px rgba(0,0,0,0.45) inset, 0 6px 14px -6px rgba(127,29,29,0.7)',
           }}
         />
       </div>
@@ -265,7 +262,7 @@ function Sidebar() {
 
 function SideButton({ children }: { children: React.ReactNode }) {
   return (
-    <button className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition hover:bg-white/10 hover:text-zinc-100">
+    <button className="side-btn flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/10 hover:text-zinc-100">
       {children}
     </button>
   )
