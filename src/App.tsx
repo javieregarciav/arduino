@@ -122,7 +122,7 @@ export default function App() {
             <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center">
               <header className="mb-8">
                 <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
-                  Hola, <span className="gradient-text">visitante</span>
+                  Matriz <span className="gradient-text">LED</span>
                 </h1>
                 <h2 className="mt-1 text-4xl font-bold leading-tight tracking-tight text-zinc-100 sm:text-5xl">
                   ¿Qué querés <span className="gradient-text">mostrar</span>?
