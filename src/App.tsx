@@ -98,8 +98,14 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen w-full">
-      <div className="warm-glow" />
+    <div className="relative min-h-screen w-full overflow-hidden">
+      <div className="nebula">
+        <div className="nebula-blob nebula-1" />
+        <div className="nebula-blob nebula-2" />
+        <div className="nebula-blob nebula-3" />
+        <div className="nebula-blob nebula-4" />
+        <div className="nebula-blob nebula-5" />
+      </div>
       <div className="grain" />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-5 sm:px-6 sm:py-6">
@@ -109,20 +115,7 @@ export default function App() {
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight text-zinc-900">Matriz<span className="text-amber-500">LED</span></span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="pill flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-zinc-700">
-              <span className="text-base leading-none">🇦🇷</span>
-              ES
-            </div>
-            <a
-              href="https://github.com/javieregarciav/arduino"
-              target="_blank"
-              rel="noreferrer"
-              className="pill rounded-full px-3.5 py-1.5 text-xs font-medium text-zinc-800"
-            >
-              Repo
-            </a>
-          </div>
+          <div className="h-6 w-6" aria-hidden />
         </header>
 
         {/* MAIN */}
@@ -227,7 +220,6 @@ export default function App() {
         {/* FOOTER */}
         <footer className="fade-up fade-up-d6 flex items-center justify-between pt-6 text-xs text-zinc-500">
           <div className="flex items-center gap-3">
-            <a className="icon-btn rounded-md p-1.5" href="https://x.com" target="_blank" rel="noreferrer" aria-label="X"><IconX /></a>
             <a className="icon-btn rounded-md p-1.5" href="https://github.com/javieregarciav/arduino" target="_blank" rel="noreferrer" aria-label="GitHub"><IconGithub /></a>
           </div>
           <div className="flex items-center gap-3">
@@ -332,13 +324,6 @@ function IconChevronRight() {
   return (
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="m9 6 6 6-6 6" />
-    </svg>
-  )
-}
-function IconX() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18 3h3l-7.5 8.6L22 21h-6.8l-5.3-6.6L3.8 21H1l8-9.2L1.5 3h7l4.8 6L18 3Zm-1.2 16h1.7L7.3 5H5.5l11.3 14Z" />
     </svg>
   )
 }
