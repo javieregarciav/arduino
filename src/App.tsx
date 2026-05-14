@@ -168,7 +168,7 @@ export default function App() {
                   aria-label="Figuras"
                   title="Insertar figura"
                 >
-                  <IconGlobe />
+                  <IconSmile />
                 </button>
               </div>
 
@@ -176,14 +176,6 @@ export default function App() {
                 <span className="hidden text-[11px] text-zinc-400 sm:inline">
                   {message.length}/{MAX}
                 </span>
-                <button
-                  onClick={() => setShowPicker((v) => !v)}
-                  className="icon-btn flex h-8 w-8 items-center justify-center rounded-full"
-                  aria-label="Adjuntar figura"
-                  title="Insertar figura"
-                >
-                  <IconPaperclip />
-                </button>
                 <button
                   onClick={() => sendMessage()}
                   disabled={status === 'sending' || !message.trim()}
@@ -291,18 +283,13 @@ function IconChip() {
     </svg>
   )
 }
-function IconGlobe() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
-    </svg>
-  )
-}
-function IconPaperclip() {
+function IconSmile() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21.4 11.1 12.3 20.2a5 5 0 0 1-7.1-7.1l9.2-9.2a3.5 3.5 0 0 1 5 5l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.4-8.4" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.5 14.5s1.4 2 3.5 2 3.5-2 3.5-2" />
+      <circle cx="9" cy="10" r="0.7" fill="currentColor" />
+      <circle cx="15" cy="10" r="0.7" fill="currentColor" />
     </svg>
   )
 }
