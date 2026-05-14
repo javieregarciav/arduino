@@ -265,12 +265,21 @@ function LogoMark() {
         WebkitBackdropFilter: 'blur(8px) saturate(160%)',
       }}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3" />
-        <circle cx="5" cy="5" r="1.5" />
-        <circle cx="19" cy="5" r="1.5" />
-        <circle cx="5" cy="19" r="1.5" />
-        <circle cx="19" cy="19" r="1.5" />
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#f59e0b" />
+            <stop offset="50%" stopColor="#ec4899" />
+            <stop offset="100%" stopColor="#8b5cf6" />
+          </linearGradient>
+        </defs>
+        <g stroke="url(#logoGrad)">
+          <circle cx="12" cy="12" r="3" />
+          <circle cx="5" cy="5" r="1.5" />
+          <circle cx="19" cy="5" r="1.5" />
+          <circle cx="5" cy="19" r="1.5" />
+          <circle cx="19" cy="19" r="1.5" />
+        </g>
       </svg>
     </span>
   )
