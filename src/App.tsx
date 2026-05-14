@@ -107,7 +107,9 @@ export default function App() {
         <header className="fade-up flex items-center justify-between">
           <div className="flex items-center gap-2">
             <LogoMark />
-            <span className="text-sm font-semibold tracking-tight text-zinc-900">Matriz<span className="text-amber-500">LED</span></span>
+            <span className="text-sm font-semibold tracking-tight text-zinc-900">
+              Matriz<span className="led-text">LED</span>
+            </span>
           </div>
           <div className="h-6 w-6" aria-hidden />
         </header>
@@ -254,16 +256,30 @@ function LogoMark() {
     <span
       className="flex h-6 w-6 items-center justify-center rounded-md"
       style={{
-        background: 'linear-gradient(135deg, #18181b 0%, #3f3f46 100%)',
-        boxShadow: '0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 6px -2px rgba(0,0,0,0.3)',
+        background:
+          'radial-gradient(120% 100% at 25% 20%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.3) 100%)',
+        border: '1px solid rgba(255,255,255,0.8)',
+        boxShadow:
+          '0 1px 0 rgba(255,255,255,1) inset, 0 -1px 0 rgba(0,0,0,0.05) inset, 0 2px 6px -2px rgba(0,0,0,0.12)',
+        backdropFilter: 'blur(8px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(8px) saturate(160%)',
       }}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fde68a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3" />
-        <circle cx="5" cy="5" r="1.5" />
-        <circle cx="19" cy="5" r="1.5" />
-        <circle cx="5" cy="19" r="1.5" />
-        <circle cx="19" cy="19" r="1.5" />
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#f59e0b" />
+            <stop offset="50%" stopColor="#ec4899" />
+            <stop offset="100%" stopColor="#8b5cf6" />
+          </linearGradient>
+        </defs>
+        <g stroke="url(#logoGrad)">
+          <circle cx="12" cy="12" r="3" />
+          <circle cx="5" cy="5" r="1.5" />
+          <circle cx="19" cy="5" r="1.5" />
+          <circle cx="5" cy="19" r="1.5" />
+          <circle cx="19" cy="19" r="1.5" />
+        </g>
       </svg>
     </span>
   )
